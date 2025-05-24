@@ -170,10 +170,17 @@ function addRandomTile() {
 
 // Board'u çiz
 function drawBoard() {
-  const cellSize = 70;
-  const gapSize = 10;
+  let cellSize = 70;
+  let gapSize = 10;
+
+  // Ekran küçüklüğüne göre hücre boyutunu azalt
+  if (window.innerWidth <= 500) {
+    cellSize = Math.floor((window.innerWidth - 40) / size) - gapSize;
+    if (cellSize < 40) cellSize = 40; // çok küçük olmasın
+  }
+
   const boardSize = (cellSize * size) + (gapSize * (size - 1));
-  gameBoard.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+  gameBoard.style.gridTemplateColumns = `repeat(${size}, ${cellSize}px)`;
   gameBoard.style.width = boardSize + 'px';
   gameBoard.style.height = boardSize + 'px';
 
@@ -183,17 +190,22 @@ function drawBoard() {
       const cell = document.createElement('div');
       const val = board[i][j];
       cell.className = 'cell';
+      cell.style.width = `${cellSize}px`;
+      cell.style.height = `${cellSize}px`;
+      cell.style.fontSize = cellSize > 50 ? '24px' : '16px';
+
       if (val !== 0) {
         cell.textContent = val;
         cell.setAttribute('data-value', val);
         if (val >= 65536) {
-      cell.classList.add('cell-high');
+          cell.classList.add('cell-high');
         }
       }
       gameBoard.appendChild(cell);
     }
   }
 }
+
 
 // Skorları güncelle
 function updateScore() {
