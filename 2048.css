@@ -27,6 +27,7 @@ body {
   align-items: center;
   flex-direction: column;
   transition: background 0.3s ease;
+  touch-action: none; /* Kaydırma eylemlerini engeller */
 }
 
 .menu {
