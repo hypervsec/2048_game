@@ -337,3 +337,42 @@ document.getElementById('helpBtn').addEventListener('click', () => {
   document.getElementById('helpModal').classList.remove('hidden');
 });
 
+
+let touchStartX = 0;
+let touchStartY = 0;
+let touchEndX = 0;
+let touchEndY = 0;
+const swipeThreshold = 30; // minimum mesafe (px)
+
+gameBoard.addEventListener('touchstart', (e) => {
+  const touch = e.changedTouches[0];
+  touchStartX = touch.screenX;
+  touchStartY = touch.screenY;
+}, { passive: true });
+
+gameBoard.addEventListener('touchend', (e) => {
+  const touch = e.changedTouches[0];
+  touchEndX = touch.screenX;
+  touchEndY = touch.screenY;
+  handleSwipe();
+}, { passive: true });
+
+function handleSwipe() {
+  const dx = touchEndX - touchStartX;
+  const dy = touchEndY - touchStartY;
+
+  if (Math.abs(dx) > Math.abs(dy) && Math.abs(dx) > swipeThreshold) {
+    if (dx > 0) {
+      move('right');
+    } else {
+      move('left');
+    }
+  } else if (Math.abs(dy) > swipeThreshold) {
+    if (dy > 0) {
+      move('down');
+    } else {
+      move('up');
+    }
+  }
+}
+
