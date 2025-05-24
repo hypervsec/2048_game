@@ -87,6 +87,16 @@ soundToggle.addEventListener('click', () => {
   gameMusic.muted = isMuted;
   soundToggle.textContent = isMuted ? '🔇' : '🔈';
 });
+// Sekme görünürlüğü değişince müziği duraklat/devam ettir
+document.addEventListener('visibilitychange', () => {
+  if (document.hidden) {
+    gameMusic.pause();
+  } else {
+    if (!isMuted && !menu.classList.contains('hidden')) {
+      gameMusic.play();
+    }
+  }
+});
 
 
 
