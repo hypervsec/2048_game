@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>2048 Oyunu</title>
+  <link rel="stylesheet" href="2048.css" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+
+</head>
+<body>
+
+<div class="menu">
+  <div class="menu-box">
+    <h1 id="gameTitle">2048</h1>
+
+<div class="menu-group">
+  <label id="themeLabel" for="menuThemeToggle" class="menu-theme-label">
+    Tema Değiştir:
+    <select id="menuThemeToggle">
+      <option value="light">Aydınlık</option>
+      <option value="dark">Karanlık</option>
+      <option value="neon">Neon</option>
+    </select>
+  </label>
+
+  <label for="difficulty" class="difficulty-label">
+    Zorluk Seviyesi:
+    <select id="difficulty">
+      <option value="6">Kolay (6x6)</option>
+      <option value="5" selected>Orta (5x5)</option>
+      <option value="4">Zor (4x4)</option>
+    </select>
+  </label>
+</div>
+
+    <div class="menu-group checkbox-group">
+      <label for="timeMode">
+        <input type="checkbox" id="timeMode" />
+        ⏱️ Zamana Karşı Mod (60 saniye)
+      </label>
+    </div>
+
+    <div class="menu-group highscore">
+      <label>🏆 En Yüksek Skor</label>
+      <div id="bestScore" class="score-display">0</div>
+    </div>
+
+    <!-- Yardım Butonu -->
+<button id="helpBtn">❓ Yardım</button>
+<div id="helpModal" class="game-over hidden">
+  <div class="game-over-box">
+    <h2>Nasıl Oynanır?</h2>
+
+    <ul style="text-align: left; line-height: 1.8; padding-left: 20px; font-size: 16px; margin-bottom: 20px;">
+      <li>🎯 <strong>Amaç:</strong> Aynı sayıları birleştirerek <strong>2048</strong> sayısına ulaşmak.</li>
+      <li>🎮 <strong>Kontroller:</strong> Aşağıdaki yön tuşlarını kullan:</li>
+    </ul>
+
+    <!-- Yön Tuşları Görseli (Bootstrap Icons ile) -->
+    <div style="display: flex; justify-content: center; align-items: center; margin-bottom: 20px;">
+      <div style="display: flex; flex-direction: column; gap: 5px; align-items: center;">
+        <!-- Yukarı -->
+        <div style="display: flex; gap: 5px;">
+          <div style="width: 45px;"></div>
+          <div class="help-arrow"><i class="bi bi-arrow-up"></i></div>
+          <div style="width: 45px;"></div>
+        </div>
+        <!-- Sol - Aşağı - Sağ -->
+        <div style="display: flex; gap: 5px;">
+          <div class="help-arrow"><i class="bi bi-arrow-left"></i></div>
+          <div class="help-arrow"><i class="bi bi-arrow-down"></i></div>
+          <div class="help-arrow"><i class="bi bi-arrow-right"></i></div>
+        </div>
+      </div>
+    </div>
+
+    <ul style="text-align: left; line-height: 1.8; padding-left: 20px; font-size: 16px;">
+      <li>🔁 Aynı sayılar çarpıştığında birleşir (örn. 2 + 2 = 4).</li>
+      <li>↩️ <strong>Geri Al:</strong> Son hamleni geri alabilirsin.</li>
+      <li>🔄 <strong>Yeniden Başlat:</strong> Oyunu sıfırla.</li>
+      <li>⏱️ <strong>Zamana Karşı Mod:</strong> 60 saniyede en yüksek skoru hedefle.</li>
+      <li>🎵 <strong>Ses:</strong> 🔈 simgesine tıklayarak sesi aç/kapat.</li>
+      <li>🎨 <strong>Tema:</strong> Aydınlık / Karanlık / Neon seçeneklerini deneyebilirsin.</li>
+    </ul>
+
+    <button onclick="document.getElementById('helpModal').classList.add('hidden')">Kapat</button>
+  </div>
+</div>
+
+    <button id="startBtn">Oyunu Başlat</button>
+  </div>
+</div>
+  <!-- Oyun Ekranı -->
+<div class="game-container hidden">
+  <!-- ÜST BUTONLAR -->
+  <div class="top-bar">
+    <div id="homeBtn" title="Menü">
+      <i class="bi bi-house-fill"></i>
+    </div>
+    <div id="restartBtn" title="Yeniden Başlat">
+      <i class="bi bi-arrow-clockwise"></i>
+    </div>
+    <div id="undoBtn" title="Geri Al">
+      <i class="bi bi-skip-backward-fill"></i>
+    </div>
+    <div id="themeToggle" title="Tema Değiştir">
+      🌙
+    </div>
+    <div id="soundToggle" title="Ses Aç/Kapat">
+      🔈
+    </div>
+  </div>
+
+  <!-- SKOR VE ZAMAN BAR -->
+  <div class="info-bar">
+    <div class="info-box">🏆 Skor: <span id="score">0</span></div>
+    <div class="info-box timer-box hidden">⏱️ Süre: <span id="timer">60</span>s</div>
+  </div>
+
+  <!-- OYUN TAHTASI -->
+  <div id="gameBoard" class="board"></div>
+</div>
+
+  <!-- Oyun Bitti Ekranı -->
+  <div id="gameOverScreen" class="game-over hidden">
+    <div class="game-over-box">
+      <h2>Oyun Bitti!</h2>
+      <button id="retryBtn">Tekrar Oyna</button>
+    </div>
+  </div>
+
+  <!-- Oyun Müziği -->
+<audio id="gameMusic" loop>
+  <source src="gamemusic.mp3" type="audio/mp3">
+  Tarayıcınız audio elementini desteklemiyor.
+</audio>
+
+<audio id="mergeSound">
+  <source src="merge.mp3" type="audio/mp3">
+</audio>
+
+
+  <script src="2048.js"></script>
+</body>
+</html>
