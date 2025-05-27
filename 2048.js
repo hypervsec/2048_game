@@ -179,13 +179,14 @@ function addRandomTile() {
 }
 
 // Board'u çiz
-function drawBoard(direction = '') {
+function drawBoard() {
   let cellSize = 70;
   let gapSize = 10;
 
+  // Ekran küçüklüğüne göre hücre boyutunu azalt
   if (window.innerWidth <= 500) {
     cellSize = Math.floor((window.innerWidth - 40) / size) - gapSize;
-    if (cellSize < 40) cellSize = 40;
+    if (cellSize < 40) cellSize = 40; // çok küçük olmasın
   }
 
   const boardSize = (cellSize * size) + (gapSize * (size - 1));
@@ -194,13 +195,11 @@ function drawBoard(direction = '') {
   gameBoard.style.height = boardSize + 'px';
 
   gameBoard.innerHTML = '';
-
   for (let i = 0; i < size; i++) {
     for (let j = 0; j < size; j++) {
       const cell = document.createElement('div');
       const val = board[i][j];
       cell.className = 'cell';
-
       cell.style.width = `${cellSize}px`;
       cell.style.height = `${cellSize}px`;
       cell.style.fontSize = cellSize > 50 ? '24px' : '16px';
@@ -211,21 +210,11 @@ function drawBoard(direction = '') {
         if (val >= 65536) {
           cell.classList.add('cell-high');
         }
-
-        // 👇 Yön animasyonu
-        if (direction) {
-          cell.classList.add(`animate-move-${direction}`);
-          setTimeout(() => {
-            cell.classList.remove(`animate-move-${direction}`);
-          }, 200);
-        }
       }
-
       gameBoard.appendChild(cell);
     }
   }
 }
-
 
 
 // Skorları güncelle
@@ -312,7 +301,7 @@ function move(direction) {
   if (moved) {
     addRandomTile();
     updateScore();
-    drawBoard(direction);
+    drawBoard();
     checkGameOver();
   }
 }
