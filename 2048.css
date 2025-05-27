@@ -238,7 +238,7 @@ body.neon .score{
   padding: 10px;
   border-radius: 10px;
   background: var(--board-bg);
-
+  overflow: hidden;
   /* Dinamik boyutlandırma JS ile ayarlanacak */
   width: auto;
   height: auto;
@@ -265,6 +265,37 @@ body.dark .cell-high {
   background: #700000;
   color: white;
 }
+
+.cell.animate-move-left {
+  animation: moveLeft 0.3s ease;
+}
+.cell.animate-move-right {
+  animation: moveRight 0.3s ease;
+}
+.cell.animate-move-up {
+  animation: moveUp 0.3s ease;
+}
+.cell.animate-move-down {
+  animation: moveDown 0.3s ease;
+}
+
+@keyframes moveLeft {
+  from { transform: translateX(30px); }
+  to { transform: translateX(0); }
+}
+@keyframes moveRight {
+  from { transform: translateX(-30px); }
+  to { transform: translateX(0); }
+}
+@keyframes moveUp {
+  from { transform: translateY(30px); }
+  to { transform: translateY(0); }
+}
+@keyframes moveDown {
+  from { transform: translateY(-30px); }
+  to { transform: translateY(0); }
+}
+
 
 .cell[data-value="2"]    { background: #eee4da; color: #776e65; }
 .cell[data-value="4"]    { background: #ede0c8; color: #776e65; }
