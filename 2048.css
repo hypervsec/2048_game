@@ -267,16 +267,16 @@ body.dark .cell-high {
 }
 
 .cell.animate-move-left {
-  animation: moveLeft 0.3s ease;
+  animation: moveLeft 0.1s ease;
 }
 .cell.animate-move-right {
-  animation: moveRight 0.3s ease;
+  animation: moveRight 0.1s ease;
 }
 .cell.animate-move-up {
-  animation: moveUp 0.3s ease;
+  animation: moveUp 0.1s ease;
 }
 .cell.animate-move-down {
-  animation: moveDown 0.3s ease;
+  animation: moveDown 0.1s ease;
 }
 
 @keyframes moveLeft {
